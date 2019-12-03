@@ -24,7 +24,6 @@ p intcode_computer(temp, 12, 2)
     result = intcode_computer(temp, x, y)
     if result == 19690720
       p x, y
-      break
     end
   }
 }
