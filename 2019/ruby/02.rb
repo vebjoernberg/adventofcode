@@ -1,15 +1,32 @@
 input = File.read('/Users/vebjornb/Code/adventofcode/2019/input/input02.txt').split(',').map(&:to_i)
 
-input[1] = 12
-input[2] = 2
+def intcode_computer(instruction, noun, verb)
+  instruction[1]=noun
+  instruction[2]=verb
+  instruction.each_slice(4) { |a, b, c, d|
+    unless a == 99
+      instruction[d] = a.even? ? instruction[b] * instruction[c] : instruction[b] + instruction[c]
+    else
+      break
+    end
+  }
+  instruction[0]
+end
 
-input.each_slice(4) { |a|
-  unless a.first == 99
-    input[a.last] = a.first.even? ? input[a[1]] * input[a[2]] : input[a[1]] + input[a[2]]
-  else
-    break
-  end
+# Oppgave 1
+temp = input.dup
+p intcode_computer(temp, 12, 2)
+
+# Oppgave 2
+(0..99).each { |x|
+  (0..99).each { |y|
+    temp = input.dup
+    result = intcode_computer(temp, x, y)
+    if result == 19690720
+      p x, y
+      break
+    end
+  }
 }
 
-p input[0]
 
